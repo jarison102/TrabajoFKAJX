@@ -25,3 +25,6 @@ Route::resource('Usuario', App\Http\Controllers\UsuarioController::class)->middl
 Route::resource('Pais', App\Http\Controllers\PaiseController::class)->middleware('auth');
 Route::resource('Departamento', App\Http\Controllers\DepartamentoController::class)->middleware('auth');
 Route::resource('Ciudad', App\Http\Controllers\CiudadeController::class)->middleware('auth');
+Route::resource('Vuelo', App\Http\Controllers\VueloController::class)->middleware('auth');
+Route::get('/obtener-ciudades', [App\Http\Controllers\CiudadeController::class, 'obtenerCiudades']);
+

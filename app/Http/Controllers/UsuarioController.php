@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
-
+use App\Models\Paise;
+use App\Models\Departamento;
+use App\Models\Ciudade;
+use App\Models\Vuelo;
 /**
  * Class UsuarioController
  * @package App\Http\Controllers
@@ -32,8 +35,15 @@ class UsuarioController extends Controller
     public function create()
     {
         $usuario = new Usuario();
-        return view('usuario.create', compact('usuario'));
+        $Paises = Paise::pluck('nombre', 'id');
+        $Departamentos = Departamento::pluck('nombre', 'id');
+        $Ciudades = Ciudade::pluck('nombre', 'id');
+        $Vuelo = Vuelo::pluck('codigo', 'id');
+        
+        return view('usuario.create', compact('usuario', 'Paises', 'Departamentos', 'Ciudades', 'Vuelo'));
     }
+    
+    
 
     /**
      * Store a newly created resource in storage.
@@ -47,7 +57,7 @@ class UsuarioController extends Controller
 
         $usuario = Usuario::create($request->all());
 
-        return redirect()->route('usuarios.index')
+        return redirect()->route('Usuario.index')
             ->with('success', 'Usuario created successfully.');
     }
 
@@ -103,7 +113,8 @@ class UsuarioController extends Controller
     {
         $usuario = Usuario::find($id)->delete();
 
-        return redirect()->route('usuarios.index')
+        return redirect()->route('Usuario.index')
             ->with('success', 'Usuario deleted successfully');
     }
+    
 }

@@ -45,7 +45,7 @@ class Usuario extends Model
      */
     public function ciudade()
     {
-        return $this->hasOne('App\Models\Ciudade', 'id', 'ciudad_id');
+        return $this->hasOne('App\Models\Ciudade', 'id', 'ciudad_id'); // Cambié Ciudade a Ciudad
     }
     
     /**

@@ -5,23 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Ciudade
+ * Class Vuelo
  *
  * @property $id
- * @property $nombre
+ * @property $codigo
+ * @property $fecha
  * @property $created_at
  * @property $updated_at
  *
- * @property CiudadDepartamento[] $ciudadDepartamentos
+ * @property Usuario[] $usuarios
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-class Ciudade extends Model
+class Vuelo extends Model
 {
-    protected $table = 'ciudades';
     
     static $rules = [
-		'nombre' => 'required',
+		'codigo' => 'required',
+		'fecha' => 'required',
     ];
 
     protected $perPage = 20;
@@ -31,15 +32,15 @@ class Ciudade extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre'];
+    protected $fillable = ['codigo','fecha'];
 
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ciudadDepartamentos()
+    public function usuarios()
     {
-        return $this->hasMany('App\Models\CiudadDepartamento', 'ciudad_id', 'id');
+        return $this->hasMany('App\Models\Usuario', 'vuelo_id', 'id');
     }
     
 

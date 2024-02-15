@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Ciudade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 /**
  * Class CiudadeController
@@ -106,4 +108,26 @@ class CiudadeController extends Controller
         return redirect()->route('Ciudad.index')
             ->with('success', 'Ciudade deleted successfully');
     }
+
+    public function obtenerCiudades(Request $request)
+    {
+        $paisId = $request->input('pais_id'); // Obtener el ID del país seleccionado por el usuario
+    
+        // Verificar si se seleccionó Colombia
+        if ($paisId == 5) { // Ahora sabemos que el ID de Colombia en tu base de datos es 5
+            // Obtener los IDs de los departamentos asociados a Colombia
+            $departamentoIds = DB::table('departamento_pais')->where('pais_id', $paisId)->pluck('departamento_id');
+    
+            // Obtener los IDs de las ciudades asociadas a estos departamentos
+            $ciudadIds = DB::table('ciudad_departamento')->whereIn('departamento_id', $departamentoIds)->pluck('ciudad_id');
+    
+            // Obtener las ciudades asociadas a estos IDs
+            $ciudades = Ciudade::whereIn('id', $ciudadIds)->get();
+    
+            return response()->json($ciudades); // Devolver las ciudades en formato JSON
+        } else {
+            return response()->json([]); // Si no se seleccionó Colombia, devolver un arreglo vacío
+        }
+    }
+    
 }

@@ -47,6 +47,11 @@
                             <a class="nav-link" href="{{ route('Departamento.index') }}">{{ __('Departamento') }}</a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('Vuelo.index') }}">{{ __('Vuelo') }}</a>
+                        </li>
+                        
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
