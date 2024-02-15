@@ -52,16 +52,22 @@
                     },
                     success: function(response) {
                         $('#ciudad_id').empty(); // Vaciar el select de ciudades
-                        $.each(response, function(key, value) {
+                        $.each(response.ciudades, function(key, value) {
                             $('#ciudad_id').append('<option value="' + value.id + '">' + value.nombre + '</option>'); // Agregar opciones de ciudades
+                        });
+
+                        $('#departamento_id').empty(); // Vaciar el select de departamentos
+                        $.each(response.departamentos, function(key, value) {
+                            $('#departamento_id').append('<option value="' + value.id + '">' + value.nombre + '</option>'); // Agregar opciones de departamentos
                         });
                     },
                     error: function() {
-                        console.log('Error al obtener las ciudades.');
+                        console.log('Error al obtener las ciudades y departamentos.');
                     }
                 });
             } else {
                 $('#ciudad_id').empty(); // Si no se selecciona Colombia, vaciar el select de ciudades
+                $('#departamento_id').empty(); // Si no se selecciona Colombia, vaciar el select de departamentos
             }
         });
     });

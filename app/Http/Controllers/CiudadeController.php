@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ciudade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Departamento;
 
 
 /**
@@ -118,16 +119,20 @@ class CiudadeController extends Controller
             // Obtener los IDs de los departamentos asociados a Colombia
             $departamentoIds = DB::table('departamento_pais')->where('pais_id', $paisId)->pluck('departamento_id');
     
+            // Obtener los departamentos asociados a estos IDs
+            $departamentos = Departamento::whereIn('id', $departamentoIds)->get();
+    
             // Obtener los IDs de las ciudades asociadas a estos departamentos
             $ciudadIds = DB::table('ciudad_departamento')->whereIn('departamento_id', $departamentoIds)->pluck('ciudad_id');
     
             // Obtener las ciudades asociadas a estos IDs
             $ciudades = Ciudade::whereIn('id', $ciudadIds)->get();
     
-            return response()->json($ciudades); // Devolver las ciudades en formato JSON
+            return response()->json(['ciudades' => $ciudades, 'departamentos' => $departamentos]); // Devolver las ciudades y departamentos en formato JSON
         } else {
             return response()->json([]); // Si no se seleccionó Colombia, devolver un arreglo vacío
         }
     }
+    
     
 }

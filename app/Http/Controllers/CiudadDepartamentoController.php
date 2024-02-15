@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\CiudadDepartamento;
 use Illuminate\Http\Request;
+use App\Models\Departamento;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class CiudadDepartamentoController
@@ -106,4 +108,25 @@ class CiudadDepartamentoController extends Controller
         return redirect()->route('ciudad-departamentos.index')
             ->with('success', 'CiudadDepartamento deleted successfully');
     }
+
+    public function obtenerDepartamentos(Request $request)
+    {
+        $ciudadId = $request->input('ciudad_id'); // Obtener el ID de la ciudad seleccionada por el usuario
+    
+        // Verificar si se seleccionó Bogotá
+        if ($ciudadId == 4) { // Ahora sabemos que el ID de Bogotá en tu base de datos es 4
+            // Obtener los IDs de los departamentos asociados a Bogotá
+            $departamentoIds = DB::table('ciudad_departamento')->where('ciudad_id', $ciudadId)->pluck('departamento_id');
+    
+            // Obtener los departamentos asociados a estos IDs
+            $departamentos = Departamento::whereIn('id', $departamentoIds)->get();
+    
+            return response()->json($departamentos); // Devolver los departamentos en formato JSON
+        } else {
+            return response()->json([]); // Si no se seleccionó Bogotá, devolver un arreglo vacío
+        }
+    }
+    
+
+
 }
